@@ -11,47 +11,23 @@ import java.util.stream.*;
 import java.util.stream.Stream;
 
 /**
+ * Rudimentary twitter mock.</br>
+ * Only method implemented is {@linkplain Twitter#searchOperations()#search(String,int)}
+ *
  * Created by m.frank on 14.03.2017.
  */
 public class MockTwitter implements Twitter {
-    @Override
-    public BlockOperations blockOperations() {
-        return null;
-    }
-
-    @Override
-    public DirectMessageOperations directMessageOperations() {
-        return null;
-    }
-
-    @Override
-    public FriendOperations friendOperations() {
-        return null;
-    }
-
-    @Override
-    public GeoOperations geoOperations() {
-        return null;
-    }
-
-    @Override
-    public ListOperations listOperations() {
-        return null;
-    }
+   
 
     @Override
     public SearchOperations searchOperations() {
         return new SearchOperations() {
-            @Override
-            public SearchResults search(String query) {
-                return search(query, 100);
-            }
-
+          
             @Override
             public SearchResults search(String query, int pageSize) {
                 return new SearchResults(mockTweets(1), new SearchMetadata(-1, -1));
             }
-
+            
             private List<Tweet> mockTweets(int size) {
               return Stream.generate(this::randomTweet).limit(size).collect(Collectors.toList());
             }
@@ -60,7 +36,12 @@ public class MockTwitter implements Twitter {
                 //todo: more randomness
                 return new Tweet(1L, "No tweets sorry. Twitter Api not reachable", new Date(), "", "", -1L, -1L, "en", "");
             }
-
+            
+            @Override
+            public SearchResults search(String query) {
+                return search(query, 100);
+            }
+            
             @Override
             public SearchResults search(String query, int pageSize, long sinceId, long maxId) {
                 return null;
@@ -101,6 +82,31 @@ public class MockTwitter implements Twitter {
                 return null;
             }
         };
+    }
+    
+     @Override
+    public BlockOperations blockOperations() {
+        return null;
+    }
+
+    @Override
+    public DirectMessageOperations directMessageOperations() {
+        return null;
+    }
+
+    @Override
+    public FriendOperations friendOperations() {
+        return null;
+    }
+
+    @Override
+    public GeoOperations geoOperations() {
+        return null;
+    }
+
+    @Override
+    public ListOperations listOperations() {
+        return null;
     }
 
     @Override
